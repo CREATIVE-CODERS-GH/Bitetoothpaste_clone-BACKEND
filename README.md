@@ -4,7 +4,6 @@
 Welcome to the Bitetoothpaste Backend API project! This project sets up a backend for Bitetoothpaste, an e-commerce platform, using MongoDB and Express.js. It includes features like user authentication, product management, order processing, and email notifications.
 
 ---
-
 ## Table of Contents 📋
 
 - [Project Overview](#project-overview-rocket)
