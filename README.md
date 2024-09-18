@@ -69,26 +69,26 @@ This backend project is designed to support Bitetoothpaste with functionalities 
 
 ### Developer 1
 
-1. **Design Database Schema: Users, Products, Reviews**
+1. **Design Database Schema: Users, Products,**
    - **Files**: `/models/User.js`, `/models/Product.js`
    - **Task**: Define Mongoose schemas for users, products, and reviews.
 
 2. **User Authentication (Register, Login, JWT)**
-   - **Files**: `/controllers/authController.js`, `/routes/authRoutes.js`, `/middleware/authMiddleware.js`
+   - **Files**: `/controllers/authController.js`, `/routes/authRoutes.js`, `/middleware/authMiddleware.js`,`/routes/productRoutes.js`
    - **Task**: Implement user registration, login, and JWT-based authentication.
 
 3. **Email Setup: User Registration and Order Confirmation**
-   - **Files**: `/config/emailConfig.js`, `/utils/emailService.js`, `/controllers/authController.js`, `/controllers/orderController.js`
+   - **Files**: `/config/emailConfig.js`, `/utils/emailService.js`, `/controllers/authController.js`, `/controllers/productController.js`
    - **Task**: Implement email notifications for users during registration and for order confirmations.
 
 ### Developer 2
 
-1. **Set Up Database for Orders, Carts, and Authentication**
+1. **Set Up Database for Orders, Carts, **
    - **Files**: `/models/Order.js`, `/models/Cart.js`
    - **Task**: Define the schema for orders and carts.
 
 2. **Product Listing and Order Endpoints**
-   - **Files**: `/controllers/productController.js`, `/controllers/orderController.js`, `/routes/productRoutes.js`, `/routes/orderRoutes.js`
+   - **Files**:, `/controllers/orderController.js`,`/controllers/cartController.js` `/routes/orderRoutes.js`,`/routes/cart.js`
    - **Task**: Create routes for product listing, product detail retrieval, creating orders, and managing carts.
 
 ---
