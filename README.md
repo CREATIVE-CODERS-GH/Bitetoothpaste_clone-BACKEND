@@ -39,19 +39,24 @@ This backend project is designed to support Bitetoothpaste with functionalities 
 |
 |-- /controllers
 |   |-- authController.js    # Handles user authentication
-|   |-- productController.js # Handles product-related routes
-|   |-- orderController.js   # Handles order-related routes
+|   |-- productController.js # Handles product-related fuctions
+|   |-- orderController.js   # Handles order-related fuction
+|   |-- cartController.js   # Handles cart-related functions
+|   |-- reviewController.js   # Handles review-related fuction
 |
 |-- /models
 |   |-- User.js      # User schema
 |   |-- Product.js   # Product schema
 |   |-- Order.js     # Order schema
 |   |-- Cart.js      # Cart schema
+|   |-- Review.js    # Review schema
 |
 |-- /routes
 |   |-- authRoutes.js     # Routes for user authentication
-|   |-- productRoutes.js  # Routes for product listing and review
+|   |-- productRoutes.js  # Routes for product listing 
 |   |-- orderRoutes.js    # Routes for orders
+|   |-- cartRoutes.js     # Routes for cart
+|   |-- reviewRoutes.js    # Routes for review
 |
 |-- /middleware
 |   |-- authMiddleware.js  # JWT validation middleware
@@ -60,7 +65,7 @@ This backend project is designed to support Bitetoothpaste with functionalities 
 |   |-- errorHandler.js    # Custom error handler
 |   |-- emailService.js    # Email sending logic
 |
-|-- server.js         # Main entry point of the application
+|-- index.js         # Main entry point of the application
 ```
 
 ---
@@ -69,7 +74,7 @@ This backend project is designed to support Bitetoothpaste with functionalities 
 
 ### Developer 1
 
-1. **Design Database Schema: Users, Products,**
+1. **Design Database Schema: Users, Products, Review **
    - **Files**: `/models/User.js`, `/models/Product.js`
    - **Task**: Define Mongoose schemas for users, products, and reviews.
 
@@ -91,18 +96,6 @@ This backend project is designed to support Bitetoothpaste with functionalities 
    - **Files**:, `/controllers/orderController.js`,`/controllers/cartController.js` `/routes/orderRoutes.js`,`/routes/cart.js`
    - **Task**: Create routes for product listing, product detail retrieval, creating orders, and managing carts.
 
----
-
-## API Endpoints 📡
-
-| Method | Endpoint          | Description                        | Auth  |
-|--------|-------------------|------------------------------------|-------|
-| POST   | `/register`        | Register a new user                | No    |
-| POST   | `/login`           | Login user and get JWT token       | No    |
-| GET    | `/products`        | Get all products                   | No    |
-| GET    | `/products/:id`    | Get product by ID                  | No    |
-| POST   | `/orders`          | Create a new order                 | Yes   |
-| GET    | `/orders/:id`      | Get order details by ID            | Yes   |
 
 ---
 
