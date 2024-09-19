@@ -88,12 +88,12 @@ This backend project is designed to support Bitetoothpaste with functionalities 
 
 ### Developer 2
 
-1. **Set Up Database for Orders, Carts, **
-   - **Files**: `/models/Order.js`, `/models/Cart.js`
+1. **Set Up Database for Orders, Carts,category **
+   - **Files**: `/models/Order.js`, `/models/Cart.js`,`/models/productCategory.js`
    - **Task**: Define the schema for orders and carts.
 
 2. **Product Listing and Order Endpoints**
-   - **Files**:, `/controllers/orderController.js`,`/controllers/cartController.js` `/routes/orderRoutes.js`,`/routes/cart.js`
+   - **Files**:, `/controllers/orderController.js`,`/controllers/cartController.js`,`/controllers/productCategoryController.js``/routes/orderRoutes.js`,`/routes/cart.js`,`/routes/productCategory.js`
    - **Task**: Create routes for product listing, product detail retrieval, creating orders, and managing carts.
 
 
