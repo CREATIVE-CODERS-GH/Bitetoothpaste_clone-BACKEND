@@ -24,39 +24,17 @@ const userSchema = new mongoose.Schema({
         enum: ['user', 'admin'],
         default: 'user',
     },
-    cart: [
-        {
-            productId: {
-                type: mongoose.Schema.Types.ObjectId,
-                ref: 'Product',
-                required: true,
-            },
-            quantity: {
-                type: Number,
-                required: true,
-                min: 1,
-            },
-        },
-    ],
-    reviews: [
-        {
-            productId: {
-                type: mongoose.Schema.Types.ObjectId,
-                ref: 'Product',
-                required: true,
-            },
-            content: {
-                type: String,
-                required: true,
-            },
-            rating: {
-                type: Number,
-                required: true,
-                min: 1,
-                max: 5,
-            },
-        },
-    ],
+    cart: {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'Cart',
+        required: true
+    },
+    reviews: {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'Review',
+        required: true
+    },
+
     lastLogin: {
         type: Date,
         default: Date.now()
@@ -77,3 +55,24 @@ const userSchema = new mongoose.Schema({
 
 
 export const User = mongoose.model('User', userSchema);
+
+
+// reviews: [
+//     {
+//         productId: {
+//             type: mongoose.Schema.Types.ObjectId,
+//             ref: 'Product',
+//             required: true,
+//         },
+//         content: {
+//             type: String,
+//             required: true,
+//         },
+//         rating: {
+//             type: Number,
+//             required: true,
+//             min: 1,
+//             max: 5,
+//         },
+//     },
+// ],

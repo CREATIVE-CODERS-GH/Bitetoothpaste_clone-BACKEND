@@ -3,17 +3,17 @@ import {registerUser, login, verifyEmail, forgotPassword, resetPassword, logout}
 
 export const authRouter = Router();
 
-authRouter.post('/register', registerUser);
+authRouter.post('/auth/register', registerUser);
 
-authRouter.post('/login', login);
+authRouter.post('/auth/login', login);
 
-authRouter.post('/verify-email', verifyEmail);
+authRouter.post('/auth/verify-email', verifyEmail);
 
-authRouter.post('/forgot-password', forgotPassword);
+authRouter.post('/auth/forgot-password', forgotPassword);
 
-authRouter.post('/reset-password/:token', resetPassword);
+authRouter.post('/auth/reset-password/:token', resetPassword);
 
-authRouter.post('/logout', logout);
+authRouter.post('/auth/logout', logout);
 
 
 
