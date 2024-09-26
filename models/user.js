@@ -10,6 +10,11 @@ const userSchema = new mongoose.Schema({
         type: String,
         required: true,
     },
+    userName: {
+        type: String,
+        required: true,
+        unique: true,
+    },
     email: {
         type: String,
         required: true,
@@ -27,12 +32,12 @@ const userSchema = new mongoose.Schema({
     cart: {
         type: mongoose.Schema.Types.ObjectId,
         ref: 'Cart',
-        required: true
+
     },
     reviews: {
         type: mongoose.Schema.Types.ObjectId,
         ref: 'Review',
-        required: true
+
     },
 
     lastLogin: {
