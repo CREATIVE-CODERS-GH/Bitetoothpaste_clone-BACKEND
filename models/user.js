@@ -10,6 +10,11 @@ const userSchema = new mongoose.Schema({
         type: String,
         required: true,
     },
+    userName: {
+        type: String,
+        required: true,
+        unique: true,
+    },
     email: {
         type: String,
         required: true,
@@ -24,39 +29,17 @@ const userSchema = new mongoose.Schema({
         enum: ['user', 'admin'],
         default: 'user',
     },
-    cart: [
-        {
-            productId: {
-                type: mongoose.Schema.Types.ObjectId,
-                ref: 'Product',
-                required: true,
-            },
-            quantity: {
-                type: Number,
-                required: true,
-                min: 1,
-            },
-        },
-    ],
-    reviews: [
-        {
-            productId: {
-                type: mongoose.Schema.Types.ObjectId,
-                ref: 'Product',
-                required: true,
-            },
-            content: {
-                type: String,
-                required: true,
-            },
-            rating: {
-                type: Number,
-                required: true,
-                min: 1,
-                max: 5,
-            },
-        },
-    ],
+    cart: {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'Cart',
+
+    },
+    reviews: {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'Review',
+
+    },
+
     lastLogin: {
         type: Date,
         default: Date.now()
@@ -77,3 +60,24 @@ const userSchema = new mongoose.Schema({
 
 
 export const User = mongoose.model('User', userSchema);
+
+
+// reviews: [
+//     {
+//         productId: {
+//             type: mongoose.Schema.Types.ObjectId,
+//             ref: 'Product',
+//             required: true,
+//         },
+//         content: {
+//             type: String,
+//             required: true,
+//         },
+//         rating: {
+//             type: Number,
+//             required: true,
+//             min: 1,
+//             max: 5,
+//         },
+//     },
+// ],

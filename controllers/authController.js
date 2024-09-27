@@ -1,18 +1,36 @@
 import bcryptjs from "bcryptjs";
 import crypto from "crypto";
-
 import { User } from "../models/user.js";
 import { generateJWT } from "../middlewares/authMiddleware.js"
 import { sendVerificationEmail, sendWelcomeEmail, sendPasswordResetEmail, sendPasswordResetSuccessEmail } from "../utils/emailService.js";
+import userValidationSchema from "../validation_schema/userValidationSchema.js";
+import passport from "passport";
 
+
+export const isLoggedIn = (req, res, next) => {
+    req.user ? next() : res.sendStatus(401);
+};
 
 
 export const registerUser = async (req, res) => {
-    const { firstName, lastName, email, password } = req.body;
+
+    // Validate user input using Joi schema
+    const { error } = userValidationSchema.validate(req.body);
+    console.log(req.body);
+    if (error) {
+        return res.status(400).json({ success: false, message: error.details[0].message });
+    }
+
+    const { firstName, lastName, email, password, userName } = req.body;
+    if (!userName) {
+        return res.status(400).json({
+            success: false,
+            message: 'Username is required',
+        });
+    }
+
+
     try {
-        if (!firstName || !lastName || !email || !password) {
-            throw new Error("All fields is required")
-        }
         const userAlReadyExists = await User.findOne({ email })
         if (userAlReadyExists) {
             return res.status(400).json({ success: false, message: "User already exists" })
@@ -26,6 +44,7 @@ export const registerUser = async (req, res) => {
             firstName,
             lastName,
             email,
+            userName,
             password: hashedPassword,
             verificationToken,
             verificationExpires: Date.now() + 3600000, // 1 hour 
@@ -163,11 +182,44 @@ export const resetPassword = async (req, res) => {
         res.status(200).json({ success: true, message: "Password reset successful" });
 
     } catch (error) {
-res.status(400).json({ success: false, message: error.message });
+        res.status(400).json({ success: false, message: error.message });
     }
 };
 
 export const logout = async (req, res) => {
     res.clearCookie("token");
-    res.status(200).json({success: true, message: "User logged out successfully"})
- };
+    res.status(200).json({ success: true, message: "User logged out successfully" })
+};
+
+
+export const googleLogin = passport.authenticate('google', {
+    scope: ['profile', 'email']
+}
+);
+
+
+export const googleCallback = passport.authenticate('google', {
+    successRedirect: '/protected',
+    failureRedirect: '/login/failed'
+})  // callback route after Google login')
+
+
+export const loginFailed = (req, res) => {
+    res.status(401).json({ error: true, message: "Login Failed" })
+};
+
+
+
+export const userLogout = (req, res, next) => {
+    req.logout((err) => {  // logout now requires a callback in newer versions
+        if (err) { return next(err); }
+        req.session.destroy();  // Destroy the session after logout
+        res.send('Goodbye!');
+    });
+};
+
+
+export const userProtected = (req,res) =>{
+    res.send(`Hello, ${req.user.displayName}!`)
+};
+
