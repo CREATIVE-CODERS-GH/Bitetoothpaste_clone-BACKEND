@@ -14,47 +14,48 @@ export const isLoggedIn = (req, res, next) => {
 
 export const registerUser = async (req, res) => {
 
-    // Validate user input using Joi schema
-    const { error } = userValidationSchema.validate(req.body);
-    console.log(req.body);
-    if (error) {
-        return res.status(400).json({ success: false, message: error.details[0].message });
-    }
-
-    const { firstName, lastName, email, password, userName } = req.body;
-    if (!userName) {
-        return res.status(400).json({
-            success: false,
-            message: 'Username is required',
-        });
-    }
-
-
     try {
+        // Validate user input using Joi schema
+        const { error, value } = userValidationSchema.validate(req.body, { abortEarly: false });
+
+        if (error) {
+            const errors = error.details.map((detail) => detail.message);
+            return res.status(400).json({ success: false, message: "Validation failed", errors });
+        }
+        // Check if user already exists
+        const email = value.email
         const userAlReadyExists = await User.findOne({ email })
         if (userAlReadyExists) {
             return res.status(400).json({ success: false, message: "User already exists" })
         }
-
-        const hashedPassword = await bcryptjs.hash(password, 10)
+        // Hash the password
+        value.password = await bcryptjs.hash(value.password, 10)
         const verificationToken = Math.floor(100000 + Math.random() * 900000).toString(); // generate 6 digit verification token 
 
         // Create  User
-        const user = await User.create({
-            firstName,
-            lastName,
-            email,
-            userName,
-            password: hashedPassword,
-            verificationToken,
-            verificationExpires: Date.now() + 3600000, // 1 hour 
-        })
+        let user;
+        try {
+            user = await User.create({
+                ...value,
+                verificationToken,
+                verificationExpires: Date.now() + 3600000, // 1 hour 
+            });
+        } catch (error) {
+            if (error.code === 11000) {
+                return res.status(400).json({ success: false, message: error });
+            }
+            throw error;
+        }
 
         //Generate JWT Token
         generateJWT(res, user._id);
 
         //send verification email
-        sendVerificationEmail(user.email, verificationToken);
+        try {
+            sendVerificationEmail(user.email, verificationToken);
+        } catch (emailError) {
+            console.error("Email sending failed:", emailError.message);
+        }
 
 
         //send response
@@ -119,11 +120,11 @@ export const login = async (req, res) => {
         res.status(200).json({
             success: true,
             message: "User logged in successfully",
-            user: {
-                ...user._doc,
-                password: undefined,
+            // user: {
+            //     ...user._doc,
+            //     password: undefined,
 
-            }
+            // }
         })
 
     } catch (error) {
@@ -219,7 +220,7 @@ export const userLogout = (req, res, next) => {
 };
 
 
-export const userProtected = (req,res) =>{
+export const userProtected = (req, res) => {
     res.send(`Hello, ${req.user.displayName}!`)
 };
 
